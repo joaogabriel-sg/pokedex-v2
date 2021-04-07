@@ -16,6 +16,14 @@ export default createGlobalStyle`
     font-size: 10px;
     font-family: ${({ theme }) => theme.fonts};
     color: ${({ theme }) => theme.colors.text};
+
+    @media screen and (max-width: ${({ theme }) => theme.devices.tablet}) {
+      font-size: 9px; 
+    }
+
+    @media screen and (max-width: ${({ theme }) => theme.devices.mobile}) {
+      font-size: 8px; 
+    }
   }
 
   a {
