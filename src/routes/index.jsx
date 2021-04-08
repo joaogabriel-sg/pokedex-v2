@@ -1,13 +1,17 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import Home from '../pages/Home';
 import Login from '../pages/Login';
+import List from '../pages/List';
+import Search from '../pages/Search';
+import Favorites from '../pages/Favorites';
 
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<Login />} />
-    <Route path="home" element={<Home />} />
+    <Route path="list" element={<List />} />
+    <Route path="search" element={<Search />} />
+    <Route path="favorites" element={<Favorites />} />
   </Routes>
 );
 

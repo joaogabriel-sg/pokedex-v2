@@ -32,7 +32,7 @@ const Login = () => {
     const validations = [email.validate(), password.validate()];
     const areTheFieldsValid = validations.every((validation) => validation);
 
-    if (areTheFieldsValid) navigate('home');
+    if (areTheFieldsValid) navigate('list');
   }
 
   return (
