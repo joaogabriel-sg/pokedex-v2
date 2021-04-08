@@ -20,6 +20,11 @@ export const Button = styled.button`
     background: ${({ theme }) => theme.colors.primary};
   }
 
+  svg {
+    width: auto;
+    height: 2.4rem;
+  }
+
   @media screen and (max-width: ${({ theme }) => theme.devices.mobile}) {
     width: auto;
     border: 0;
@@ -38,9 +43,6 @@ export const Button = styled.button`
 `;
 
 export const Text = styled.span`
-  width: auto;
-  height: 2.4rem;
-
   @media screen and (max-width: ${({ theme }) => theme.devices.mobile}) {
     display: none;
   }
