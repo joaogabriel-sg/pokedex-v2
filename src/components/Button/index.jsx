@@ -5,7 +5,7 @@ import { ButtonElement, LinkButtonElement } from './styles';
 
 const Button = ({ children, to }) => {
   if (to) return <LinkButtonElement to={to}>{children}</LinkButtonElement>;
-  return <ButtonElement type="button">{children}</ButtonElement>;
+  return <ButtonElement>{children}</ButtonElement>;
 };
 
 Button.defaultProps = {
