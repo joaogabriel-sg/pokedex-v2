@@ -1,5 +1,12 @@
 import React from 'react';
 
-const List = () => <div>List</div>;
+import Menu from '../../components/Menu';
+
+const List = () => (
+  <>
+    <Menu />
+    <div>List</div>
+  </>
+);
 
 export default List;

@@ -1,5 +1,12 @@
 import React from 'react';
 
-const Search = () => <div>Search</div>;
+import Menu from '../../components/Menu';
+
+const Search = () => (
+  <>
+    <Menu />
+    <div>Search</div>
+  </>
+);
 
 export default Search;

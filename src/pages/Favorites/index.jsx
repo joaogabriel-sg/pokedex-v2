@@ -1,5 +1,12 @@
 import React from 'react';
 
-const Favorites = () => <div>Favorites</div>;
+import Menu from '../../components/Menu';
+
+const Favorites = () => (
+  <>
+    <Menu />
+    <div>Favorites</div>
+  </>
+);
 
 export default Favorites;
