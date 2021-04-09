@@ -1,103 +1,174 @@
 import React from 'react';
 
-import {
-  Container,
-  Title,
-  Content,
-  Card,
-  Image,
-  Name,
-  Id,
-  Types,
-  Type,
-  Button,
-} from './styles';
+import { Container, Title } from './styles';
 
 import Menu from '../../components/Menu';
+import Cards from '../../components/Cards';
+
+const allPokemons = [
+  {
+    name: 'bulbasaur',
+    id: 1,
+    sprites: {
+      front_default:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
+    },
+    types: [
+      {
+        type: {
+          name: 'grass',
+        },
+      },
+      {
+        type: {
+          name: 'poison',
+        },
+      },
+    ],
+  },
+  {
+    name: 'ivysaur',
+    id: 2,
+    sprites: {
+      front_default:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png',
+    },
+    types: [
+      {
+        type: {
+          name: 'grass',
+        },
+      },
+      {
+        type: {
+          name: 'poison',
+        },
+      },
+    ],
+  },
+  {
+    name: 'venusaur',
+    id: 3,
+    sprites: {
+      front_default:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png',
+    },
+    types: [
+      {
+        type: {
+          name: 'grass',
+        },
+      },
+      {
+        type: {
+          name: 'poison',
+        },
+      },
+    ],
+  },
+  {
+    name: 'charmander',
+    id: 4,
+    sprites: {
+      front_default:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
+    },
+    types: [
+      {
+        type: {
+          name: 'fire',
+        },
+      },
+    ],
+  },
+  {
+    name: 'charmeleon',
+    id: 5,
+    sprites: {
+      front_default:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png',
+    },
+    types: [
+      {
+        type: {
+          name: 'fire',
+        },
+      },
+    ],
+  },
+  {
+    name: 'charizard',
+    id: 6,
+    sprites: {
+      front_default:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png',
+    },
+    types: [
+      {
+        type: {
+          name: 'fire',
+        },
+      },
+      {
+        type: {
+          name: 'flying',
+        },
+      },
+    ],
+  },
+  {
+    name: 'squirtle',
+    id: 7,
+    sprites: {
+      front_default:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png',
+    },
+    types: [
+      {
+        type: {
+          name: 'water',
+        },
+      },
+    ],
+  },
+  {
+    name: 'wartortle',
+    id: 8,
+    sprites: {
+      front_default:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png',
+    },
+    types: [
+      {
+        type: {
+          name: 'water',
+        },
+      },
+    ],
+  },
+  {
+    name: 'blastoise',
+    id: 9,
+    sprites: {
+      front_default:
+        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png',
+    },
+    types: [
+      {
+        type: {
+          name: 'water',
+        },
+      },
+    ],
+  },
+];
 
 const List = () => (
   <>
     <Menu />
     <Container>
       <Title>Poké List</Title>
-      <Content>
-        <Card>
-          <Image
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
-            alt="Bulba"
-          />
-          <Name>Bulbasaur</Name>
-          <Id>id: 1</Id>
-          <Types>
-            <Type>grass</Type>
-            <Type>poison</Type>
-          </Types>
-          <Button type="button">Ver detalhes</Button>
-        </Card>
-        <Card>
-          <Image
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png"
-            alt="Bulba"
-          />
-          <Name>Ivysaur</Name>
-          <Id>id: 2</Id>
-          <Types>
-            <Type>grass</Type>
-            <Type>poison</Type>
-          </Types>
-          <Button type="button">Ver detalhes</Button>
-        </Card>
-        <Card>
-          <Image
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png"
-            alt="Bulba"
-          />
-          <Name>Venusaur</Name>
-          <Id>id: 3</Id>
-          <Types>
-            <Type>grass</Type>
-            <Type>poison</Type>
-          </Types>
-          <Button type="button">Ver detalhes</Button>
-        </Card>
-        <Card>
-          <Image
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png"
-            alt="Bulba"
-          />
-          <Name>Charmander</Name>
-          <Id>id: 4</Id>
-          <Types>
-            <Type>fire</Type>
-          </Types>
-          <Button type="button">Ver detalhes</Button>
-        </Card>
-        <Card>
-          <Image
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png"
-            alt="Bulba"
-          />
-          <Name>Charmeleon</Name>
-          <Id>id: 5</Id>
-          <Types>
-            <Type>fire</Type>
-          </Types>
-          <Button type="button">Ver detalhes</Button>
-        </Card>
-        <Card>
-          <Image
-            src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png"
-            alt="Bulba"
-          />
-          <Name>Charizard</Name>
-          <Id>id: 6</Id>
-          <Types>
-            <Type>fire</Type>
-            <Type>flying</Type>
-          </Types>
-          <Button type="button">Ver detalhes</Button>
-        </Card>
-      </Content>
+      <Cards datas={allPokemons} />
     </Container>
   </>
 );
