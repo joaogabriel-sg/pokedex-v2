@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 export const InputElement = styled.input`
+  background: ${({ theme }) => theme.colors.primary};
   width: 100%;
 
   padding: 1.6rem;
