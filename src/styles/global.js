@@ -11,7 +11,7 @@ export default createGlobalStyle`
   html,
   body,
   #root {
-    background: ${({ theme }) => theme.colors.primary};
+    background: ${({ theme }) => theme.colors.secondary};
     min-height: 100vh;
     font-size: 10px;
     font-family: ${({ theme }) => theme.fonts};
@@ -39,6 +39,11 @@ export default createGlobalStyle`
   button {
     border: none;
     cursor: pointer;
+    font-family: ${({ theme }) => theme.fonts};
+  }
+
+  input {
+    font-family: ${({ theme }) => theme.fonts};
   }
 
   img {
