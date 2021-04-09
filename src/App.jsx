@@ -7,12 +7,16 @@ import AppRoutes from './routes';
 import { light } from './styles/themes';
 import GlobalStyle from './styles/global';
 
+import { PokemonProvider } from './contexts/PokemonContext';
+
 const App = () => (
   <ThemeProvider theme={light}>
-    <BrowserRouter>
-      <GlobalStyle />
-      <AppRoutes />
-    </BrowserRouter>
+    <PokemonProvider>
+      <BrowserRouter>
+        <GlobalStyle />
+        <AppRoutes />
+      </BrowserRouter>
+    </PokemonProvider>
   </ThemeProvider>
 );
 
