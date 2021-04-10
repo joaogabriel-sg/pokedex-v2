@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 
-import { Container, Title } from './styles';
+import { Container } from './styles';
 
 import { PokemonContext } from '../../contexts/PokemonContext';
 
 import Menu from '../../components/Menu';
 import Cards from '../../components/Cards';
+import PageTitle from '../../components/PageTitle';
 
 const List = () => {
   const { allPokemons } = useContext(PokemonContext);
@@ -14,7 +15,7 @@ const List = () => {
     <>
       <Menu />
       <Container>
-        <Title>Poké List</Title>
+        <PageTitle>Poké List</PageTitle>
         <Cards datas={allPokemons} />
       </Container>
     </>
