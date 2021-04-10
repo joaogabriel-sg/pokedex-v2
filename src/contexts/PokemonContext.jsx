@@ -1,171 +1,48 @@
-import React, { createContext } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+
+import api from '../services/api';
 
 export const PokemonContext = createContext({});
 
-const allPokemons = [
-  {
-    name: 'bulbasaur',
-    id: 1,
-    sprites: {
-      front_default:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png',
-    },
-    types: [
-      {
-        type: {
-          name: 'grass',
-        },
-      },
-      {
-        type: {
-          name: 'poison',
-        },
-      },
-    ],
-  },
-  {
-    name: 'ivysaur',
-    id: 2,
-    sprites: {
-      front_default:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png',
-    },
-    types: [
-      {
-        type: {
-          name: 'grass',
-        },
-      },
-      {
-        type: {
-          name: 'poison',
-        },
-      },
-    ],
-  },
-  {
-    name: 'venusaur',
-    id: 3,
-    sprites: {
-      front_default:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/3.png',
-    },
-    types: [
-      {
-        type: {
-          name: 'grass',
-        },
-      },
-      {
-        type: {
-          name: 'poison',
-        },
-      },
-    ],
-  },
-  {
-    name: 'charmander',
-    id: 4,
-    sprites: {
-      front_default:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png',
-    },
-    types: [
-      {
-        type: {
-          name: 'fire',
-        },
-      },
-    ],
-  },
-  {
-    name: 'charmeleon',
-    id: 5,
-    sprites: {
-      front_default:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/5.png',
-    },
-    types: [
-      {
-        type: {
-          name: 'fire',
-        },
-      },
-    ],
-  },
-  {
-    name: 'charizard',
-    id: 6,
-    sprites: {
-      front_default:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/6.png',
-    },
-    types: [
-      {
-        type: {
-          name: 'fire',
-        },
-      },
-      {
-        type: {
-          name: 'flying',
-        },
-      },
-    ],
-  },
-  {
-    name: 'squirtle',
-    id: 7,
-    sprites: {
-      front_default:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png',
-    },
-    types: [
-      {
-        type: {
-          name: 'water',
-        },
-      },
-    ],
-  },
-  {
-    name: 'wartortle',
-    id: 8,
-    sprites: {
-      front_default:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/8.png',
-    },
-    types: [
-      {
-        type: {
-          name: 'water',
-        },
-      },
-    ],
-  },
-  {
-    name: 'blastoise',
-    id: 9,
-    sprites: {
-      front_default:
-        'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/9.png',
-    },
-    types: [
-      {
-        type: {
-          name: 'water',
-        },
-      },
-    ],
-  },
-];
+export const PokemonProvider = ({ children }) => {
+  const [allPokemons, setAllPokemons] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
-export const PokemonProvider = ({ children }) => (
-  <PokemonContext.Provider value={{ allPokemons }}>
-    {children}
-  </PokemonContext.Provider>
-);
+  useEffect(async () => {
+    try {
+      setLoading(true);
+      setError(false);
+
+      const { data: allPokemonsApi } = await api.get(
+        'pokemon/?offset=0&limit=150',
+      );
+
+      const allPokeDatas = [];
+      allPokemonsApi.results.forEach(async ({ name }, index) => {
+        try {
+          const { data: pokemonApi } = await api.get(`pokemon/${name}`);
+          allPokeDatas[index] = pokemonApi;
+        } catch (err) {
+          setError(true);
+        }
+      });
+
+      setAllPokemons(allPokeDatas);
+    } catch (err) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  return (
+    <PokemonContext.Provider value={{ allPokemons, loading, error }}>
+      {children}
+    </PokemonContext.Provider>
+  );
+};
 
 PokemonProvider.propTypes = {
   children: PropTypes.node.isRequired,

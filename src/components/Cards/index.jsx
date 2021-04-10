@@ -1,17 +1,33 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
+
+import { PokemonContext } from '../../contexts/PokemonContext';
 
 import { Container } from './styles';
 import Card from './Card';
 
-const Cards = ({ datas }) => (
-  <Container>
-    {datas.length !== 0 &&
-      datas.map(({ name, id, sprites, types }) => (
-        <Card key={name} name={name} id={id} sprites={sprites} types={types} />
-      ))}
-  </Container>
-);
+const Cards = ({ datas }) => {
+  const { loading, error } = useContext(PokemonContext);
+
+  if (loading) return <p>Loading</p>;
+
+  if (error) return <p>Error</p>;
+
+  return (
+    <Container>
+      {datas.length !== 0 &&
+        datas.map(({ name, id, sprites, types }) => (
+          <Card
+            key={name}
+            name={name}
+            id={id}
+            sprites={sprites}
+            types={types}
+          />
+        ))}
+    </Container>
+  );
+};
 
 Cards.propTypes = {
   datas: PropTypes.arrayOf(
