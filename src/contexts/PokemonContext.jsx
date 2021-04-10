@@ -6,9 +6,18 @@ import api from '../services/api';
 export const PokemonContext = createContext({});
 
 export const PokemonProvider = ({ children }) => {
+  const [searchedPokemons, setSearchedPokemons] = useState([]);
   const [allPokemons, setAllPokemons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+
+  async function getSearchedPokemon(identifier) {
+    const { data } = await api.get(`pokemon/${identifier}`);
+    setSearchedPokemons((oldSearchedPokemons) => [
+      ...oldSearchedPokemons,
+      data,
+    ]);
+  }
 
   useEffect(async () => {
     try {
@@ -38,7 +47,15 @@ export const PokemonProvider = ({ children }) => {
   }, []);
 
   return (
-    <PokemonContext.Provider value={{ allPokemons, loading, error }}>
+    <PokemonContext.Provider
+      value={{
+        allPokemons,
+        searchedPokemons,
+        loading,
+        error,
+        getSearchedPokemon,
+      }}
+    >
       {children}
     </PokemonContext.Provider>
   );
