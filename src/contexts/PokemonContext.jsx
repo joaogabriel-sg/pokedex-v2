@@ -13,11 +13,17 @@ export const PokemonProvider = ({ children }) => {
   const [error, setError] = useState(false);
 
   async function getSearchedPokemon(identifier) {
-    const { data } = await api.get(`pokemon/${identifier}`);
-    setSearchedPokemons((oldSearchedPokemons) => [
-      ...oldSearchedPokemons,
-      data,
-    ]);
+    const { data: searchedPokemon } = await api.get(`pokemon/${identifier}`);
+
+    setSearchedPokemons((oldSearchedPokemons) => {
+      const isThisPokemonExistent = oldSearchedPokemons.some(
+        (poke) =>
+          Number(poke.id).toString() === identifier || poke.name === identifier,
+      );
+
+      if (isThisPokemonExistent) return oldSearchedPokemons;
+      return [...oldSearchedPokemons, searchedPokemon];
+    });
   }
 
   function unfavoriteThePokemonById(id) {
