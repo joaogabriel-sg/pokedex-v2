@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import api from '../services/api';
@@ -12,7 +12,7 @@ export const PokemonProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  async function getSearchedPokemon(identifier) {
+  const getSearchedPokemon = useCallback(async (identifier) => {
     const { data: searchedPokemon } = await api.get(`pokemon/${identifier}`);
 
     setSearchedPokemons((oldSearchedPokemons) => {
@@ -24,18 +24,18 @@ export const PokemonProvider = ({ children }) => {
       if (isThisPokemonExistent) return oldSearchedPokemons;
       return [...oldSearchedPokemons, searchedPokemon];
     });
-  }
+  });
 
-  function unfavoriteThePokemonById(id) {
+  const unfavoriteThePokemonById = useCallback((id) => {
     setFavoritedPokemons((oldFavoritedPokemons) => {
       const newFavoritedPokemons = oldFavoritedPokemons.filter(
         (oldFavoritedPokemon) => oldFavoritedPokemon.id !== id,
       );
       return newFavoritedPokemons;
     });
-  }
+  });
 
-  async function favoriteThePokemonById(id) {
+  const favoriteThePokemonById = useCallback(async (id) => {
     let favorite = allPokemons[id - 1];
 
     if (!favorite) {
@@ -49,7 +49,7 @@ export const PokemonProvider = ({ children }) => {
       );
       return newFavoritedPokemons;
     });
-  }
+  });
 
   useEffect(async () => {
     try {
