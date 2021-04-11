@@ -1,11 +1,32 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  position: relative;
+
   background: ${({ theme }) => theme.colors.primary};
   padding: 2rem;
   border-radius: 0.4rem;
 
   box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.05);
+`;
+
+export const Favorite = styled.button`
+  background: transparent;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+
+  svg * {
+    fill: transparent;
+    stroke: ${({ theme }) => theme.colors.text};
+  }
+
+  &.active {
+    svg * {
+      fill: ${({ theme }) => theme.colors.palette.red};
+      stroke: ${({ theme }) => theme.colors.palette.red};
+    }
+  }
 `;
 
 export const Image = styled.img`

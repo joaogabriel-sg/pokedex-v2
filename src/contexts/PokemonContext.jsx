@@ -6,6 +6,7 @@ import api from '../services/api';
 export const PokemonContext = createContext({});
 
 export const PokemonProvider = ({ children }) => {
+  const [favoritedPokemons, setFavoritedPokemons] = useState([]);
   const [searchedPokemons, setSearchedPokemons] = useState([]);
   const [allPokemons, setAllPokemons] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -17,6 +18,31 @@ export const PokemonProvider = ({ children }) => {
       ...oldSearchedPokemons,
       data,
     ]);
+  }
+
+  function unfavoriteThePokemonById(id) {
+    setFavoritedPokemons((oldFavoritedPokemons) => {
+      const newFavoritedPokemons = oldFavoritedPokemons.filter(
+        (oldFavoritedPokemon) => oldFavoritedPokemon.id !== id,
+      );
+      return newFavoritedPokemons;
+    });
+  }
+
+  async function favoriteThePokemonById(id) {
+    let favorite = allPokemons[id - 1];
+
+    if (!favorite) {
+      const { data: pokemonFavorited } = await api.get(`pokemon/${id}`);
+      favorite = pokemonFavorited;
+    }
+
+    setFavoritedPokemons((oldFavoritedPokemons) => {
+      const newFavoritedPokemons = [...oldFavoritedPokemons, favorite].sort(
+        (a, b) => a.id - b.id,
+      );
+      return newFavoritedPokemons;
+    });
   }
 
   useEffect(async () => {
@@ -51,9 +77,12 @@ export const PokemonProvider = ({ children }) => {
       value={{
         allPokemons,
         searchedPokemons,
+        favoritedPokemons,
         loading,
         error,
         getSearchedPokemon,
+        favoriteThePokemonById,
+        unfavoriteThePokemonById,
       }}
     >
       {children}
