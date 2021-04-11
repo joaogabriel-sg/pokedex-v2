@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 
 import Menu from '../../components/Menu';
 import PageTitle from '../../components/PageTitle';
-import Cards from '../../components/Cards';
-import PageSubtitle from '../../components/PageSubtitle';
+import Empty from './Empty';
+import Full from './Full';
 
 import { Container } from './styles';
 import { PokemonContext } from '../../contexts/PokemonContext';
@@ -16,10 +16,7 @@ const Favorites = () => {
       <Menu />
       <Container>
         <PageTitle>Poké Favorites</PageTitle>
-        <PageSubtitle>
-          You have {favoritedPokemons.length} favorite Pokémon!
-        </PageSubtitle>
-        {favoritedPokemons.length > 0 && <Cards datas={favoritedPokemons} />}
+        {favoritedPokemons.length ? <Full /> : <Empty />}
       </Container>
     </>
   );
