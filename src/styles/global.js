@@ -26,6 +26,17 @@ export default createGlobalStyle`
     }
   }
 
+  body::-webkit-scrollbar {
+    background: ${({ theme }) => theme.colors.palette.yellow};
+    width: 1.2rem;
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background: ${({ theme }) => theme.colors.text};
+    border: 2px solid ${({ theme }) => theme.colors.palette.yellow};
+    border-radius: 1.2rem;
+  }
+
   a {
     text-decoration: none;
     color: ${({ theme }) => theme.colors.text};
