@@ -17,6 +17,7 @@ const Input = ({ type, id, placeholder, value, onChange, onBlur }) => (
 
 Input.defaultProps = {
   placeholder: '',
+  onBlur: null,
 };
 
 Input.propTypes = {
@@ -25,7 +26,7 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
-  onBlur: PropTypes.func.isRequired,
+  onBlur: PropTypes.func,
 };
 
 export default Input;

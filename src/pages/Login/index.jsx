@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -17,24 +17,58 @@ import hero from '../../assets/hero.png';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-
-import useForm from '../../hooks/useForm';
 import Redirect from '../../components/Redirect';
 
 const Login = () => {
   const navigate = useNavigate();
 
-  const email = useForm('email');
-  const password = useForm('password');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [loginError, setLoginError] = useState({ status: false, message: '' });
+
+  function isLoginEmailExistentInLocalStorage() {
+    setLoginError({ status: false, message: '' });
+
+    const localStorageUsersData =
+      JSON.parse(localStorage.getItem('@pokemon:USERS_DATA')) || [];
+
+    const getUserInLocalStorageByEmail = localStorageUsersData.find(
+      (localStorageUserData) => localStorageUserData.email === email,
+    );
+
+    if (!getUserInLocalStorageByEmail) {
+      setLoginError({ status: true, message: 'Wrong email' });
+      return false;
+    }
+
+    if (password !== getUserInLocalStorageByEmail.password) {
+      setLoginError({ status: true, message: 'Wrong password' });
+      return false;
+    }
+
+    const { id } = getUserInLocalStorageByEmail;
+    localStorage.setItem('@pokemon:CURRENT_USER_ID', id);
+    return true;
+  }
 
   function handleSubmitForm(e) {
     e.preventDefault();
 
-    const validations = [email.validate(), password.validate()];
-    const areTheFieldsValid = validations.every((validation) => validation);
-
-    if (areTheFieldsValid) navigate('list');
+    if ([email, password].includes('')) {
+      setLoginError({ status: true, message: 'Fill in all fields' });
+    } else {
+      const response = isLoginEmailExistentInLocalStorage();
+      if (response) navigate('list');
+    }
   }
+
+  useEffect(() => {
+    localStorage.removeItem('@pokemon:CURRENT_USER_ID');
+  }, []);
+
+  useEffect(() => {
+    if (loginError) setLoginError({ status: false, message: '' });
+  }, [email, password]);
 
   return (
     <Container>
@@ -49,9 +83,8 @@ const Login = () => {
               type="text"
               id="email"
               placeholder="Email"
-              value={email.value}
-              onChange={email.onChange}
-              onBlur={email.onBlur}
+              value={email}
+              onChange={({ target }) => setEmail(target.value)}
             />
             {email.error && <ErrorMessage>{email.error}</ErrorMessage>}
           </InputGroup>
@@ -60,13 +93,16 @@ const Login = () => {
               type="password"
               id="password"
               placeholder="Password"
-              value={password.value}
-              onChange={password.onChange}
-              onBlur={password.onBlur}
+              value={password}
+              onChange={({ target }) => setPassword(target.value)}
             />
             {password.error && <ErrorMessage>{password.error}</ErrorMessage>}
           </InputGroup>
-          <Button>Catch all!</Button>
+          {loginError && loginError.status ? (
+            <Button danger>{loginError.message}</Button>
+          ) : (
+            <Button>Catch all!</Button>
+          )}
           <Redirect to="/signup">Create a new account</Redirect>
         </Form>
       </Content>
