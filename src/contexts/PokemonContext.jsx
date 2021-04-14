@@ -8,13 +8,29 @@ export const PokemonContext = createContext({});
 export const PokemonProvider = ({ children }) => {
   const [favoritedPokemons, setFavoritedPokemons] = useState([]);
   const [searchedPokemons, setSearchedPokemons] = useState([]);
-  const [pokemonInModal, setPokemonInModal] = useState([]);
+  const [pokemonInModal, setPokemonInModal] = useState({});
   const [allPokemons, setAllPokemons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  const insertPokemonInModalById = useCallback((id) => {
-    setPokemonInModal(allPokemons[id - 1]);
+  const insertPokemonInModalById = useCallback(async (id) => {
+    try {
+      setLoading(true);
+      setError(false);
+
+      let pokemonToModal = allPokemons[id - 1];
+
+      if (!pokemonToModal) {
+        const { data: pokemonDataToModal } = await api.get(`pokemon/${id}`);
+        pokemonToModal = pokemonDataToModal;
+      }
+
+      setPokemonInModal(pokemonToModal);
+    } catch (err) {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
   });
 
   const getSearchedPokemon = useCallback(async (identifier) => {

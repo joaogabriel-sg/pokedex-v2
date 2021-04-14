@@ -18,7 +18,19 @@ const Modal = ({ closeModal, pokemon }) => {
     favoritedPokemons,
     favoriteThePokemonById,
     unfavoriteThePokemonById,
+    loading,
   } = useContext(PokemonContext);
+
+  function closeModalWhenClickOnShadow(e) {
+    if (e.currentTarget === e.target) closeModal();
+  }
+
+  if (loading)
+    return (
+      <Container onClick={closeModalWhenClickOnShadow}>
+        <Content>Loading</Content>
+      </Container>
+    );
 
   const { id, name, height, weight, sprites, types, stats } = pokemon;
 
@@ -32,10 +44,6 @@ const Modal = ({ closeModal, pokemon }) => {
 
   const frontSprite = sprites.front_default;
   const backSprite = sprites.back_default;
-
-  function closeModalWhenClickOnShadow(e) {
-    if (e.currentTarget === e.target) closeModal();
-  }
 
   return (
     <Container onClick={closeModalWhenClickOnShadow} isFavorited={isFavorited}>
