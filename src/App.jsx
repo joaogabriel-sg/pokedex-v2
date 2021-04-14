@@ -8,14 +8,17 @@ import { light } from './styles/themes';
 import GlobalStyle from './styles/global';
 
 import { PokemonProvider } from './contexts/PokemonContext';
+import { ModalProvider } from './contexts/ModalContext';
 
 const App = () => (
   <ThemeProvider theme={light}>
     <PokemonProvider>
-      <BrowserRouter>
-        <GlobalStyle />
-        <AppRoutes />
-      </BrowserRouter>
+      <ModalProvider>
+        <BrowserRouter>
+          <GlobalStyle />
+          <AppRoutes />
+        </BrowserRouter>
+      </ModalProvider>
     </PokemonProvider>
   </ThemeProvider>
 );

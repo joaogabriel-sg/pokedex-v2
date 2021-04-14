@@ -8,9 +8,14 @@ export const PokemonContext = createContext({});
 export const PokemonProvider = ({ children }) => {
   const [favoritedPokemons, setFavoritedPokemons] = useState([]);
   const [searchedPokemons, setSearchedPokemons] = useState([]);
+  const [pokemonInModal, setPokemonInModal] = useState([]);
   const [allPokemons, setAllPokemons] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+
+  const insertPokemonInModalById = useCallback((id) => {
+    setPokemonInModal(allPokemons[id - 1]);
+  });
 
   const getSearchedPokemon = useCallback(async (identifier) => {
     const { data: searchedPokemon } = await api.get(`pokemon/${identifier}`);
@@ -82,6 +87,7 @@ export const PokemonProvider = ({ children }) => {
     <PokemonContext.Provider
       value={{
         allPokemons,
+        pokemonInModal,
         searchedPokemons,
         favoritedPokemons,
         loading,
@@ -89,6 +95,7 @@ export const PokemonProvider = ({ children }) => {
         getSearchedPokemon,
         favoriteThePokemonById,
         unfavoriteThePokemonById,
+        insertPokemonInModalById,
       }}
     >
       {children}

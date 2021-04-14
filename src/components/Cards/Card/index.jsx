@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { IoHeartOutline } from 'react-icons/io5';
 
@@ -16,17 +16,24 @@ import {
 } from './styles';
 
 import { PokemonContext } from '../../../contexts/PokemonContext';
+import { ModalContext } from '../../../contexts/ModalContext';
 
 const Card = ({ name, id, sprites, types }) => {
   const {
     favoritedPokemons,
     favoriteThePokemonById,
     unfavoriteThePokemonById,
+    insertPokemonInModalById,
   } = useContext(PokemonContext);
 
-  const [favorited, setFavorited] = useState(() =>
-    favoritedPokemons.some((favoritedPokemon) => favoritedPokemon.id === id),
-  );
+  const { changeModalVisibility } = useContext(ModalContext);
+
+  const [favorited, setFavorited] = useState(false);
+
+  function seePokemonDetails() {
+    changeModalVisibility();
+    insertPokemonInModalById(id);
+  }
 
   function handleClickFavorite() {
     if (favorited) {
@@ -37,6 +44,12 @@ const Card = ({ name, id, sprites, types }) => {
       favoriteThePokemonById(id);
     }
   }
+
+  useEffect(() => {
+    setFavorited(() =>
+      favoritedPokemons.some((favoritedPokemon) => favoritedPokemon.id === id),
+    );
+  }, [favoritedPokemons]);
 
   return (
     <Container>
@@ -58,7 +71,9 @@ const Card = ({ name, id, sprites, types }) => {
           ))}
         </Types>
       )}
-      <Button type="button">Ver detalhes</Button>
+      <Button type="button" onClick={seePokemonDetails}>
+        Ver detalhes
+      </Button>
     </Container>
   );
 };
