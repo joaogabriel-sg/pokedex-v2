@@ -20,6 +20,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import useForm from '../../hooks/useForm';
+import Redirect from '../../components/Redirect';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -91,6 +92,7 @@ const SignUp = () => {
             {password.error && <ErrorMessage>{password.error}</ErrorMessage>}
           </InputGroup>
           <Button>Ready to catch all?</Button>
+          <Redirect to="/">Do you have an account?</Redirect>
         </Form>
       </Content>
       <HeroContainer>
