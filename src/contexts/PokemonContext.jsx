@@ -14,23 +14,17 @@ export const PokemonProvider = ({ children }) => {
   const [error, setError] = useState(false);
 
   const insertPokemonInModalById = useCallback(async (id) => {
-    try {
-      setLoading(true);
-      setError(false);
+    let pokemonToModal =
+      allPokemons[id - 1] ||
+      searchedPokemons.find((searchedPokemon) => searchedPokemon.id === id) ||
+      favoritedPokemons.find((favoritedPokemon) => favoritedPokemon.id === id);
 
-      let pokemonToModal = allPokemons[id - 1];
-
-      if (!pokemonToModal) {
-        const { data: pokemonDataToModal } = await api.get(`pokemon/${id}`);
-        pokemonToModal = pokemonDataToModal;
-      }
-
-      setPokemonInModal(pokemonToModal);
-    } catch (err) {
-      setError(true);
-    } finally {
-      setLoading(false);
+    if (!pokemonToModal) {
+      const { data: pokemonDataToModal } = await api.get(`pokemon/${id}`);
+      pokemonToModal = pokemonDataToModal;
     }
+
+    setPokemonInModal(pokemonToModal);
   });
 
   const getSearchedPokemon = useCallback(async (identifier) => {
