@@ -58,17 +58,6 @@ export const Form = styled.form`
   gap: 2rem;
 `;
 
-export const InputGroup = styled.div``;
-
-export const ErrorMessage = styled.span`
-  display: block;
-  margin-top: 0.4rem;
-
-  font-size: 1.4rem;
-  font-weight: 500;
-  color: ${({ theme }) => theme.colors.palette.red};
-`;
-
 export const HeroContainer = styled.div`
   display: flex;
   align-items: center;

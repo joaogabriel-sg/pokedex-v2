@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -18,13 +17,13 @@ import hero from '../../assets/hero.png';
 
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-
-import useForm from '../../hooks/useForm';
 import Redirect from '../../components/Redirect';
 
-const SignUp = () => {
-  const navigate = useNavigate();
+import useForm from '../../hooks/useForm';
+import useAuth from '../../hooks/useAuth';
 
+const SignUp = () => {
+  const { login } = useAuth();
   const email = useForm('email');
   const password = useForm('password');
   const [signUpError, setSignUpError] = useState(false);
@@ -44,10 +43,12 @@ const SignUp = () => {
       return false;
     }
 
-    const newLocalStorageUsersData = [
-      ...localStorageUsersData,
-      { id: uuidv4(), email: email.value, password: password.value },
-    ];
+    const newUser = {
+      id: uuidv4(),
+      email: email.value,
+      password: password.value,
+    };
+    const newLocalStorageUsersData = [...localStorageUsersData, newUser];
 
     localStorage.setItem(
       '@pokemon:USERS_DATA',
@@ -58,11 +59,6 @@ const SignUp = () => {
     return true;
   }
 
-  function handleVerifyEmail({ target }) {
-    if (signUpError) setSignUpError(false);
-    email.onChange({ target });
-  }
-
   function handleSubmitForm(e) {
     e.preventDefault();
 
@@ -70,9 +66,14 @@ const SignUp = () => {
     const areTheFieldsValid = validations.every((validation) => validation);
 
     if (areTheFieldsValid) {
-      const response = signUpIntoSystem();
-      if (response) navigate('/list');
+      const isSignUpValid = signUpIntoSystem();
+      if (isSignUpValid) login(email.value, password.value);
     }
+  }
+
+  function handleVerifyEmail({ target }) {
+    if (signUpError) setSignUpError(false);
+    email.onChange({ target });
   }
 
   return (
