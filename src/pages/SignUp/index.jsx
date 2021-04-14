@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -27,20 +27,26 @@ const SignUp = () => {
 
   const email = useForm('email');
   const password = useForm('password');
+  const [signUpError, setSignUpError] = useState(false);
 
   function signUpIntoSystem() {
+    setSignUpError(false);
+
     const localStorageUsersData =
       JSON.parse(localStorage.getItem('@pokemon:USERS_DATA')) || [];
 
     const isThisEmailExistent = localStorageUsersData.some(
-      (localStorageUserData) => localStorageUserData.email === email,
+      (localStorageUserData) => localStorageUserData.email === email.value,
     );
 
-    if (isThisEmailExistent) return false;
+    if (isThisEmailExistent) {
+      setSignUpError(true);
+      return false;
+    }
 
     const newLocalStorageUsersData = [
       ...localStorageUsersData,
-      { id: uuidv4(), email, password },
+      { id: uuidv4(), email: email.value, password: password.value },
     ];
 
     localStorage.setItem(
@@ -48,7 +54,13 @@ const SignUp = () => {
       JSON.stringify(newLocalStorageUsersData),
     );
 
+    setSignUpError(false);
     return true;
+  }
+
+  function handleVerifyEmail({ target }) {
+    if (signUpError) setSignUpError(false);
+    email.onChange({ target });
   }
 
   function handleSubmitForm(e) {
@@ -75,7 +87,7 @@ const SignUp = () => {
               id="email"
               placeholder="Email"
               value={email.value}
-              onChange={email.onChange}
+              onChange={handleVerifyEmail}
               onBlur={email.onBlur}
             />
             {email.error && <ErrorMessage>{email.error}</ErrorMessage>}
@@ -91,7 +103,11 @@ const SignUp = () => {
             />
             {password.error && <ErrorMessage>{password.error}</ErrorMessage>}
           </InputGroup>
-          <Button>Ready to catch all?</Button>
+          {signUpError ? (
+            <Button danger>Ops, this email is existent!</Button>
+          ) : (
+            <Button>Ready to catch all?</Button>
+          )}
           <Redirect to="/">Do you have an account?</Redirect>
         </Form>
       </Content>

@@ -2,7 +2,8 @@ import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const buttonStyle = css`
-  background: ${({ theme }) => theme.colors.palette.yellow};
+  background: ${({ theme, danger }) =>
+    danger ? theme.colors.palette.red : theme.colors.palette.yellow};
   width: 100%;
   opacity: 1;
 
@@ -15,6 +16,8 @@ const buttonStyle = css`
 
   font-size: 2.4rem;
   font-weight: 500;
+  color: ${({ theme, danger }) =>
+    danger ? theme.colors.palette.cloud : theme.colors.text};
   transition: opacity 0.3s;
 
   &:hover {
