@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { InputElement } from '../../../components/Input/styles';
 
 export const FormContainer = styled.form`
   background: ${({ theme }) => theme.colors.primary};
@@ -9,6 +10,10 @@ export const FormContainer = styled.form`
   display: flex;
   align-items: center;
   overflow: hidden;
+
+  ${InputElement} {
+    height: 100%;
+  }
 `;
 
 export const Button = styled.button`
