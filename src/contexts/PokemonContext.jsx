@@ -13,6 +13,14 @@ export const PokemonProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const clearPokemonContextDatas = useCallback(() => {
+    setFavoritedPokemons([]);
+    setSearchedPokemons([]);
+    setPokemonInModal({});
+    setLoading(false);
+    setError(false);
+  });
+
   const insertPokemonInModalById = useCallback(async (id) => {
     let pokemonToModal =
       allPokemons[id - 1] ||
@@ -66,6 +74,23 @@ export const PokemonProvider = ({ children }) => {
     });
   });
 
+  const updateFavoritedPokemonsByUserId = useCallback((id) => {
+    const allUsersData = JSON.parse(
+      localStorage.getItem('@pokemon:USERS_DATA'),
+    );
+
+    if (allUsersData && allUsersData.length && id) {
+      const currentUserData = allUsersData.filter(
+        (userData) => userData.id === id,
+      )[0];
+
+      const favorited = currentUserData
+        ? currentUserData.favoritedPokemons
+        : [];
+      setFavoritedPokemons(favorited);
+    }
+  });
+
   useEffect(async () => {
     try {
       setLoading(true);
@@ -93,6 +118,27 @@ export const PokemonProvider = ({ children }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (favoritedPokemons.length) {
+      const allUsersData = JSON.parse(
+        localStorage.getItem('@pokemon:USERS_DATA'),
+      );
+      const currentUserId = localStorage.getItem('@pokemon:CURRENT_USER_ID');
+
+      const updatedAllUsersData = allUsersData.map((userData) => {
+        if (userData.id === currentUserId)
+          return { ...userData, favoritedPokemons };
+
+        return userData;
+      });
+
+      localStorage.setItem(
+        '@pokemon:USERS_DATA',
+        JSON.stringify(updatedAllUsersData),
+      );
+    }
+  }, [favoritedPokemons]);
+
   return (
     <PokemonContext.Provider
       value={{
@@ -106,6 +152,8 @@ export const PokemonProvider = ({ children }) => {
         favoriteThePokemonById,
         unfavoriteThePokemonById,
         insertPokemonInModalById,
+        clearPokemonContextDatas,
+        updateFavoritedPokemonsByUserId,
       }}
     >
       {children}

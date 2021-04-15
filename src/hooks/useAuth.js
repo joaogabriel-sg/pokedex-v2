@@ -1,8 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { PokemonContext } from '../contexts/PokemonContext';
 
 const useAuth = () => {
   const navigate = useNavigate();
+  const {
+    updateFavoritedPokemonsByUserId,
+    clearPokemonContextDatas,
+  } = useContext(PokemonContext);
   const [isLogged, setIsLogged] = useState(false);
   const [hash, setHash] = useState('');
   const [error, setError] = useState({ status: false, message: '' });
@@ -40,6 +45,8 @@ const useAuth = () => {
       getUserInLocalStorageByEmail.id,
     );
 
+    updateFavoritedPokemonsByUserId(getUserInLocalStorageByEmail.id);
+
     setHash(getUserInLocalStorageByEmail.id);
     setIsLogged(true);
     navigate('/list');
@@ -50,6 +57,7 @@ const useAuth = () => {
     localStorage.removeItem('@pokemon:CURRENT_USER_ID');
     setIsLogged(false);
     navigate('/');
+    clearPokemonContextDatas();
   }
 
   return { hash, isLogged, error, login, logout, hiddenErrorMessage };
