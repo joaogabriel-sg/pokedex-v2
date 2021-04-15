@@ -45,10 +45,9 @@ const useAuth = () => {
       getUserInLocalStorageByEmail.id,
     );
 
-    updateFavoritedPokemonsByUserId(getUserInLocalStorageByEmail.id);
-
-    setHash(getUserInLocalStorageByEmail.id);
     setIsLogged(true);
+    updateFavoritedPokemonsByUserId(getUserInLocalStorageByEmail.id);
+    setHash(getUserInLocalStorageByEmail.id);
     navigate('/list');
     return true;
   }

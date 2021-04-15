@@ -6,14 +6,15 @@ import List from '../pages/List';
 import Search from '../pages/Search';
 import Favorites from '../pages/Favorites';
 import SignUp from '../pages/SignUp';
+import ProtectedRoute from './ProtectedRoute';
 
 const AppRoutes = () => (
   <Routes>
     <Route path="/" element={<Login />} />
     <Route path="signup" element={<SignUp />} />
-    <Route path="list" element={<List />} />
-    <Route path="search" element={<Search />} />
-    <Route path="favorites" element={<Favorites />} />
+    <ProtectedRoute path="list" element={<List />} />
+    <ProtectedRoute path="search" element={<Search />} />
+    <ProtectedRoute path="favorites" element={<Favorites />} />
   </Routes>
 );
 
