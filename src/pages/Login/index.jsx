@@ -12,6 +12,7 @@ import {
 import logo from '../../assets/logo.svg';
 import hero from '../../assets/hero.png';
 
+import Head from '../../components/Head';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Redirect from '../../components/Redirect';
@@ -39,6 +40,10 @@ const Login = () => {
   return (
     <Container>
       <Content>
+        <Head
+          title="Login"
+          description="Log in and find all your favorite Pokémons"
+        />
         <Logo src={logo} alt="Pokémon Logo" />
         <Title>
           Find all your favorite <span>Pokémon</span>

@@ -15,6 +15,7 @@ import {
 import logo from '../../assets/logo.svg';
 import hero from '../../assets/hero.png';
 
+import Head from '../../components/Head';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Redirect from '../../components/Redirect';
@@ -80,6 +81,10 @@ const SignUp = () => {
   return (
     <Container>
       <Content>
+        <Head
+          title="Sign Up"
+          description="Sign up and embark on this adventure"
+        />
         <Logo src={logo} alt="Pokémon Logo" />
         <Title>Sign up and embark on this adventure</Title>
         <Form onSubmit={handleSubmitForm}>
