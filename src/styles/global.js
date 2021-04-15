@@ -27,13 +27,13 @@ export default createGlobalStyle`
   }
 
   body::-webkit-scrollbar {
-    background: ${({ theme }) => theme.colors.palette.yellow};
+    background: ${({ theme }) => theme.colors.palette.secondary};
     width: 1.2rem;
   }
 
   body::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.colors.text};
-    border: 2px solid ${({ theme }) => theme.colors.palette.yellow};
+    background: ${({ theme }) => theme.colors.palette.yellow};
+    border: 3px solid ${({ theme }) => theme.colors.secondary};
     border-radius: 1.2rem;
   }
 
