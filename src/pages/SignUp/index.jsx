@@ -47,6 +47,7 @@ const SignUp = () => {
       id: uuidv4(),
       email: email.value,
       password: password.value,
+      favoritedPokemons: [],
     };
     const newLocalStorageUsersData = [...localStorageUsersData, newUser];
 
